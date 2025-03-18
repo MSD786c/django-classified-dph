@@ -1,0 +1,805 @@
+{% extends "base.html" %}
+{% block body %}
+
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f8f9fa;
+      }
+      .form-container {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          padding: 20px;
+          max-width: 600px;
+          margin: 50px auto;
+      }
+      .form-title {
+          text-align: center;
+          margin-bottom: 20px;
+      }
+      .form-container .btn-danger {
+          width: 100%;
+          margin-top: 20px;
+      }
+      .help-text {
+          text-align: center;
+          margin-top: 15px;
+      }
+  </style>
+
+  <div class="container form-container" id="form1">
+      <h2 class="form-title">Please enter your car details below</h2>
+
+      <form id="carDetailsForm" action="{% url 'post-vehicle' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- First form content -->
+          <div class="mb-3">
+              <label for="emirate" class="form-label">Emirate</label>
+              <select id="emirate" name="emirate" class="form-select form-control">
+                  <option value="Abu Dhabi" selected>Abu Dhabi</option>
+                  <option value="Dubai">Dubai</option>
+                  <option value="Sharjah">Sharjah</option>
+                  <option value="Ajman">Ajman</option>
+                  <option value="Umm Al Quwain">Umm Al Quwain</option>
+                  <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                  <option value="Fujairah">Fujairah</option>
+              </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="make" class="form-label">Make</label>
+            <select id="make" name="make" class="form-select form-control" onchange="updateModels(); updateMakeModel();">
+                <option value="">Select Make</option>
+                <option value="Abadal">Abadal</option>
+                <option value="Abarth">Abarth</option>
+                <option value="Abbott-Detroit">Abbott-Detroit</option>
+                <option value="AC">AC</option>
+                <option value="Acura">Acura</option>
+                <option value="Aiways">Aiways</option>
+                <option value="Aixam">Aixam</option>
+                <option value="Alfa Romeo">Alfa Romeo</option>
+                <option value="Alpina">Alpina</option>
+                <option value="Alpine">Alpine</option>
+                <option value="Alta">Alta</option>
+                <option value="Alvis">Alvis</option>
+                <option value="AMC">AMC</option>
+                <option value="Apollo">Apollo</option>
+                <option value="Arash">Arash</option>
+                <option value="Arcfox">Arcfox</option>
+                <option value="Ariel">Ariel</option>
+                <option value="ARO">ARO</option>
+                <option value="Arrival">Arrival</option>
+                <option value="Arrinera">Arrinera</option>
+                <option value="Artega">Artega</option>
+                <option value="Ascari">Ascari</option>
+                <option value="Askam">Askam</option>
+                <option value="Aspark">Aspark</option>
+                <option value="Aston Martin">Aston Martin</option>
+                <option value="Atalanta">Atalanta</option>
+                <option value="Auburn">Auburn</option>
+                <option value="Audi">Audi</option>
+                <option value="Austin">Austin</option>
+                <option value="Autobacs">Autobacs</option>
+                <option value="Autobianchi">Autobianchi</option>
+                <option value="Axon">Axon</option>
+                <option value="BAC">BAC</option>
+                <option value="BAIC Motor">BAIC Motor</option>
+                <option value="Baojun">Baojun</option>
+                <option value="BeiBen">BeiBen</option>
+                <option value="Bentley">Bentley</option>
+                <option value="Berkeley">Berkeley</option>
+                <option value="Berliet">Berliet</option>
+                <option value="Bertone">Bertone</option>
+                <option value="Bestune">Bestune</option>
+                <option value="Bitter">Bitter</option>
+                <option value="Bizzarrini">Bizzarrini</option>
+                <option value="BMW">BMW</option>
+                <option value="Borgward">Borgward</option>
+                <option value="Bowler">Bowler</option>
+                <option value="Brabus">Brabus</option>
+                <option value="Brammo">Brammo</option>
+                <option value="Brilliance">Brilliance</option>
+                <option value="Bristol">Bristol</option>
+                <option value="Brooke">Brooke</option>
+                <option value="Bufori">Bufori</option>
+                <option value="Bugatti">Bugatti</option>
+                <option value="Buick">Buick</option>
+                <option value="BYD">BYD</option>
+                <option value="Byton">Byton</option>
+                <option value="Cadillac">Cadillac</option>
+                <option value="CAMC">CAMC</option>
+                <option value="Canoo">Canoo</option>
+                <option value="Caparo">Caparo</option>
+                <option value="Carlsson">Carlsson</option>
+                <option value="Caterham">Caterham</option>
+                <option value="Changan">Changan</option>
+                <option value="Changfeng">Changfeng</option>
+                <option value="Chery">Chery</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="Chrysler">Chrysler</option>
+                <option value="Cisitalia">Cisitalia</option>
+                <option value="Citroën">Citroën</option>
+                <option value="Cizeta">Cizeta</option>
+                <option value="Cole">Cole</option>
+                <option value="Corre La Licorne">Corre La Licorne</option>
+                <option value="Dacia">Dacia</option>
+                <option value="Daewoo">Daewoo</option>
+                <option value="DAF">DAF</option>
+                <option value="Daihatsu">Daihatsu</option>
+                <option value="Dartz">Dartz</option>
+                <option value="Datsun">Datsun</option>
+                <option value="David Brown">David Brown</option>
+                <option value="Dayun">Dayun</option>
+                <option value="De Tomaso">De Tomaso</option>
+                <option value="Delage">Delage</option>
+                <option value="DeSoto">DeSoto</option>
+                <option value="Detroit Electric">Detroit Electric</option>
+                <option value="Devel Sixteen">Devel Sixteen</option>
+                <option value="Diatto">Diatto</option>
+                <option value="DINA">DINA</option>
+                <option value="DKW">DKW</option>
+                <option value="DMC">DMC</option>
+                <option value="Dodge">Dodge</option>
+                <option value="Dongfeng">Dongfeng</option>
+                <option value="Donkervoort">Donkervoort</option>
+                <option value="Drako">Drako</option>
+                <option value="DS">DS</option>
+                <option value="Duesenberg">Duesenberg</option>
+                <option value="Eagle">Eagle</option>
+                <option value="EDAG">EDAG</option>
+                <option value="Edsel">Edsel</option>
+                <option value="Eicher">Eicher</option>
+                <option value="Elemental">Elemental</option>
+                <option value="Elfin">Elfin</option>
+                <option value="Elva">Elva</option>
+                <option value="Englon">Englon</option>
+                <option value="ERF">ERF</option>
+                <option value="Eterniti">Eterniti</option>
+                <option value="Exeed">Exeed</option>
+                <option value="Facel Vega">Facel Vega</option>
+                <option value="Faraday Future">Faraday Future</option>
+                <option value="FAW">FAW</option>
+                <option value="FAW Jiefang">FAW Jiefang</option>
+                <option value="Ferrari">Ferrari</option>
+                <option value="Fiat">Fiat</option>
+                <option value="Fioravanti">Fioravanti</option>
+                <option value="Fisker">Fisker</option>
+                <option value="Foden">Foden</option>
+                <option value="Force Motors">Force Motors</option>
+                <option value="Ford">Ford</option>
+                <option value="Foton">Foton</option>
+                <option value="FPV">FPV</option>
+                <option value="Franklin">Franklin</option>
+                <option value="Freightliner">Freightliner</option>
+                <option value="FSO">FSO</option>
+                <option value="GAC Group">GAC Group</option>
+                <option value="Gardner Douglas">Gardner Douglas</option>
+                <option value="GAZ">GAZ</option>
+                <option value="Geely">Geely</option>
+                <option value="Genesis">Genesis</option>
+                <option value="Geo">Geo</option>
+                <option value="Geometry">Geometry</option>
+                <option value="Gilbern">Gilbern</option>
+                <option value="Gillet">Gillet</option>
+                <option value="Ginetta">Ginetta</option>
+                <option value="GMC">GMC</option>
+                <option value="Golden Dragon">Golden Dragon</option>
+                <option value="Gonow">Gonow</option>
+                <option value="Great Wall">Great Wall</option>
+                <option value="Grinnall">Grinnall</option>
+                <option value="Gumpert">Gumpert</option>
+                <option value="Hafei">Hafei</option>
+                <option value="Haima">Haima</option>
+                <option value="Haval">Haval</option>
+                <option value="Hawtai">Hawtai</option>
+                <option value="Hennessey">Hennessey</option>
+                <option value="Hillman">Hillman</option>
+                <option value="Higer">Higer</option>
+                <option value="Hino">Hino</option>
+                <option value="HiPhi">HiPhi</option>
+                <option value="Hispano-Suiza">Hispano-Suiza</option>
+                <option value="Holden">Holden</option>
+                <option value="Hommell">Hommell</option>
+                <option value="Honda">Honda</option>
+                <option value="Hongqi">Hongqi</option>
+                <option value="Hongyan">Hongyan</option>
+                <option value="Horch">Horch</option>
+                <option value="HSV">HSV</option>
+                <option value="Hudson">Hudson</option>
+                <option value="Hummer">Hummer</option>
+                <option value="Hupmobile">Hupmobile</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="IC Bus">IC Bus</option>
+                <option value="Infiniti">Infiniti</option>
+                <option value="Innocenti">Innocenti</option>
+                <option value="Intermeccanica">Intermeccanica</option>
+                <option value="IH">IH</option>
+                <option value="International">International</option>
+                <option value="IKCO">IKCO</option>
+                <option value="Irizar">Irizar</option>
+                <option value="Isdera">Isdera</option>
+                <option value="Iso">Iso</option>
+                <option value="Isuzu">Isuzu</option>
+                <option value="Iveco">Iveco</option>
+                <option value="JAC">JAC</option>
+                <option value="Jaguar">Jaguar</option>
+                <option value="Jawa">Jawa</option>
+                <option value="JBA Motors">JBA Motors</option>
+                <option value="Jeep">Jeep</option>
+                <option value="Jensen">Jensen</option>
+                <option value="Jetta">Jetta</option>
+                <option value="JMC">JMC</option>
+                <option value="Kaiser">Kaiser</option>
+                <option value="Kamaz">Kamaz</option>
+                <option value="Karlmann King">Karlmann King</option>
+                <option value="Karma">Karma</option>
+                <option value="Keating">Keating</option>
+                <option value="Kenworth">Kenworth</option>
+                <option value="Kia">Kia</option>
+                <option value="King Long">King Long</option>
+                <option value="Koenigsegg">Koenigsegg</option>
+                <option value="KTM">KTM</option>
+                <option value="Lada">Lada</option>
+                <option value="Lagonda">Lagonda</option>
+                <option value="Lamborghini">Lamborghini</option>
+                <option value="Lancia">Lancia</option>
+                <option value="Land Rover">Land Rover</option>
+                <option value="Landwind">Landwind</option>
+                <option value="Laraki">Laraki</option>
+                <option value="Leapmotor">Leapmotor</option>
+                <option value="Lexus">Lexus</option>
+                <option value="Leyland">Leyland</option>
+                <option value="Li Auto">Li Auto</option>
+                <option value="Lifan">Lifan</option>
+                <option value="Ligier">Ligier</option>
+                <option value="Lincoln">Lincoln</option>
+                <option value="Lister">Lister</option>
+                <option value="Lloyd">Lloyd</option>
+                <option value="Lobini">Lobini</option>
+                <option value="LEVC">LEVC</option>
+                <option value="Lordstown">Lordstown</option>
+                <option value="Lotus">Lotus</option>
+                <option value="Lucid">Lucid</option>
+                <option value="Luxgen">Luxgen</option>
+                <option value="Lynk & Co">Lynk & Co</option>
+                <option value="Mack">Mack</option>
+                <option value="Mahindra">Mahindra</option>
+                <option value="MAN">MAN</option>
+                <option value="Mansory">Mansory</option>
+                <option value="Marcos">Marcos</option>
+                <option value="Marlin">Marlin</option>
+                <option value="Maserati">Maserati</option>
+                <option value="Mastretta">Mastretta</option>
+                <option value="Maxus">Maxus</option>
+                <option value="Maybach">Maybach</option>
+                <option value="MAZ">MAZ</option>
+                <option value="Mazda">Mazda</option>
+                <option value="Mazzanti">Mazzanti</option>
+                <option value="McLaren">McLaren</option>
+                <option value="Melkus">Melkus</option>
+                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                <option value="Mercury">Mercury</option>
+                <option value="Merkur">Merkur</option>
+                <option value="MEV">MEV</option>
+                <option value="MG">MG</option>
+                <option value="Microcar">Microcar</option>
+                <option value="Mini">Mini</option>
+                <option value="Mitsubishi">Mitsubishi</option>
+                <option value="Mitsuoka">Mitsuoka</option>
+                <option value="MK">MK</option>
+                <option value="Morgan">Morgan</option>
+                <option value="Morris">Morris</option>
+                <option value="Mosler">Mosler</option>
+                <option value="Navistar">Navistar</option>
+                <option value="NEVS">NEVS</option>
+                <option value="NIO">NIO</option>
+                <option value="Nikola">Nikola</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Noble">Noble</option>
+                <option value="Oldsmobile">Oldsmobile</option>
+                <option value="Oltcit">Oltcit</option>
+                <option value="Opel">Opel</option>
+                <option value="OSCA">OSCA</option>
+                <option value="Paccar">Paccar</option>
+                <option value="Packard">Packard</option>
+                <option value="Pagani">Pagani</option>
+                <option value="Panhard">Panhard</option>
+                <option value="Panoz">Panoz</option>
+                <option value="Pegaso">Pegaso</option>
+                <option value="Perodua">Perodua</option>
+                <option value="Peterbilt">Peterbilt</option>
+                <option value="Peugeot">Peugeot</option>
+                <option value="PGO">PGO</option>
+                <option value="Pierce-Arrow">Pierce-Arrow</option>
+                <option value="Pininfarina">Pininfarina</option>
+                <option value="Plymouth">Plymouth</option>
+                <option value="Polestar">Polestar</option>
+                <option value="Pontiac">Pontiac</option>
+                <option value="Porsche">Porsche</option>
+                <option value="Praga">Praga</option>
+                <option value="Premier">Premier</option>
+                <option value="Prodrive">Prodrive</option>
+                <option value="Proton">Proton</option>
+                <option value="Qoros">Qoros</option>
+                <option value="Radical">Radical</option>
+                <option value="RAM">RAM</option>
+                <option value="Rambler">Rambler</option>
+                <option value="Ranz">Ranz</option>
+                <option value="Renault">Renault</option>
+                <option value="Renault Samsung">Renault Samsung</option>
+                <option value="Rezvani">Rezvani</option>
+                <option value="Riley">Riley</option>
+                <option value="Rimac">Rimac</option>
+                <option value="Rinspeed">Rinspeed</option>
+                <option value="Rivian">Rivian</option>
+                <option value="Roewe">Roewe</option>
+                <option value="Rolls-Royce">Rolls-Royce</option>
+                <option value="Ronart">Ronart</option>
+                <option value="Rossion">Rossion</option>
+                <option value="Rover">Rover</option>
+                <option value="RUF">RUF</option>
+                <option value="Saab">Saab</option>
+                <option value="SAIC Motor">SAIC Motor</option>
+                <option value="Saipa">Saipa</option>
+                <option value="Saleen">Saleen</option>
+                <option value="Saturn">Saturn</option>
+                <option value="Scania">Scania</option>
+                <option value="Scion">Scion</option>
+                <option value="SEAT">SEAT</option>
+                <option value="Setra">Setra</option>
+                <option value="Shacman">Shacman</option>
+                <option value="Simca">Simca</option>
+                <option value="Singer">Singer</option>
+                <option value="Singulato">Singulato</option>
+                <option value="Sinotruk">Sinotruk</option>
+                <option value="Sisu">Sisu</option>
+                <option value="Škoda">Škoda</option>
+                <option value="Smart">Smart</option>
+                <option value="Soueast">Soueast</option>
+                <option value="Spania GTA">Spania GTA</option>
+                <option value="Spirra">Spirra</option>
+                <option value="Spyker">Spyker</option>
+                <option value="SsangYong">SsangYong</option>
+                <option value="SSC">SSC</option>
+                <option value="Sterling">Sterling</option>
+                <option value="Studebaker">Studebaker</option>
+                <option value="Stutz">Stutz</option>
+                <option value="Subaru">Subaru</option>
+                <option value="Suffolk">Suffolk</option>
+                <option value="Suzuki">Suzuki</option>
+                <option value="Talbot">Talbot</option>
+                <option value="Tata">Tata</option>
+                <option value="Tatra">Tatra</option>
+                <option value="Tauro">Tauro</option>
+                <option value="TechArt">TechArt</option>
+                <option value="Tesla">Tesla</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Tramontana">Tramontana</option>
+                <option value="Trion">Trion</option>
+                <option value="Triumph">Triumph</option>
+                <option value="Troller">Troller</option>
+                <option value="Tucker">Tucker</option>
+                <option value="TVR">TVR</option>
+                <option value="UAZ">UAZ</option>
+                <option value="UD">UD</option>
+                <option value="Ultima">Ultima</option>
+                <option value="Vandenbrink">Vandenbrink</option>
+                <option value="Vauxhall">Vauxhall</option>
+                <option value="Vector">Vector</option>
+                <option value="Vencer">Vencer</option>
+                <option value="Venturi">Venturi</option>
+                <option value="Venucia">Venucia</option>
+                <option value="VinFast">VinFast</option>
+                <option value="VLF">VLF</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Volvo">Volvo</option>
+                <option value="Wanderer">Wanderer</option>
+                <option value="W Motors">W Motors</option>
+                <option value="Wartburg">Wartburg</option>
+                <option value="Weltmeister">Weltmeister</option>
+                <option value="Western Star">Western Star</option>
+                <option value="Westfield">Westfield</option>
+                <option value="WEY">WEY</option>
+                <option value="Wiesmann">Wiesmann</option>
+                <option value="Willys-Overland">Willys-Overland</option>
+                <option value="Workhorse">Workhorse</option>
+                <option value="Wuling">Wuling</option>
+                <option value="XPeng">XPeng</option>
+                <option value="Xiaomi">Xiaomi</option>
+                <option value="Yulon">Yulon</option>
+                <option value="Yutong">Yutong</option>
+                <option value="Zarooq Motors">Zarooq Motors</option>
+                <option value="Zastava">Zastava</option>
+                <option value="ZAZ">ZAZ</option>
+                <option value="Zeekr">Zeekr</option>
+                <option value="Zenos">Zenos</option>
+                <option value="Zenvo">Zenvo</option>
+                <option value="Zhongtong">Zhongtong</option>
+                <option value="Zinoro">Zinoro</option>
+                <option value="Zotye">Zotye</option>
+
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="model" class="form-label">Model</label>
+            <select id="model" name="model" class="form-select form-control" onchange="updateMakeModel();">
+                <option value="">Select Model</option>
+                <!-- Options will be added dynamically -->
+            </select>
+        </div>
+
+          <div class="mb-3">
+              <label for="trim" class="form-label">Trim</label>
+              <input type="text" class="form-control" id="trim" name="trim">
+          </div>
+
+          <input type="hidden" id="makeModel" name="makeModel" value="">
+
+          <div class="mb-3">
+              <label for="regionalSpec" class="form-label">Regional Spec</label>
+              <select id="regionalSpec" name="regionalSpec" class="form-select form-control">
+                  <option value="GCC Specs" selected>GCC Specs</option>
+                  <option value="American Specs">American Specs</option>
+                  <option value="European Specs">European Specs</option>
+                  <option value="Japanese Specs">Japanese Specs</option>
+                  <option value="Japanese Specs">Korean Specs</option>
+                  <option value="Japanese Specs">Chinese Specs</option>
+                  <option value="Other">Other</option>
+              </select>
+          </div>
+
+          <div class="mb-3">
+              <label for="year" class="form-label">Year</label>
+              <input type="number" class="form-control" id="year" name="year" value="2023">
+          </div>
+
+          <div class="mb-3">
+              <label for="kilometers" class="form-label">Kilometers</label>
+              <input type="number" class="form-control" id="kilometers" name="kilometers" value="100">
+          </div>
+
+          <div class="mb-3">
+              <label for="bodyType" class="form-label">Body Type</label>
+              <select id="bodyType" name="bodyType" class="form-select form-control">
+                  <option value="" selected disabled>Select Body Type</option>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="Coupe">Coupe</option>
+                  <option value="Convertible">Convertible</option>
+                  <option value="Wagon">Wagon</option>
+                  <option value="Van">Van</option>
+                  <option value="Truck">Truck</option>
+                  <option value="Other">Other</option>
+              </select>
+          </div>
+
+          <div class="mb-3">
+              <label for="insured" class="form-label">Is your car insured in UAE?</label>
+              <select id="insured" name="insured" class="form-select form-control">
+                  <option value="No" selected>No</option>
+                  <option value="Yes">Yes</option>
+              </select>
+          </div>
+
+          <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="price" name="price">
+          </div>
+
+          <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+          </div>
+
+          <button type="button" class="btn btn-danger" onclick="showNextForm()">Next</button>
+      
+
+  </div>
+
+  <div class="container form-container" id="form2" style="display: none;">
+    <h2 class="form-title">You're almost there!</h2>
+    <p class="text-center text-muted">Include as much details and pictures as possible, and set the right price!</p>
+
+    <div class="alert alert-info">
+        <strong>Note:</strong> Advertising multiple cars in one ad or changing your existing ad to advertise for another car will result in rejection without a refund.
+    </div>
+
+    <!-- Existing Fields -->
+    <div class="mb-3">
+        <label for="listingSummary" class="form-label">Listing Summary</label>
+        <p id="modelSummary">Model: </p>
+        <p id="trimSummary">Trim: </p>
+        
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modelInput = document.getElementById('makeModel');
+            var trimInput = document.getElementById('trim');
+            var modelSummary = document.getElementById('modelSummary');
+            var trimSummary = document.getElementById('trimSummary');
+
+            if (modelInput && trimInput) {
+                modelSummary.textContent = 'Model: ' + (modelInput.value || 'Not specified');
+                trimSummary.textContent = 'Trim: ' + (trimInput.value || 'Not specified');
+            }
+        });
+    </script>
+    <div class="mb-3">
+        <label for="carImages" class="form-label">Car Images</label>
+        <div class="image-upload-container">
+            <label for="carImages" class="image-upload-label form-control">
+                <i class="fa fa-cloud-upload"></i> Upload Images
+            </label>
+            <input type="file" class="form-control" id="carImages" name="carImages" multiple accept="image/*" style="display: none;">
+        </div>
+        <div id="imagePreviewContainer" class="image-preview-container"></div>
+        <div class="form-text">Select multiple images of your car. You can choose up to 10 images.</div>
+    </div>
+
+    <script>
+        document.getElementById('carImages').addEventListener('change', function(event) {
+            var files = event.target.files;
+            var previewContainer = document.getElementById('imagePreviewContainer');
+            previewContainer.innerHTML = '';
+
+            for (var i = 0; i < Math.min(files.length, 10); i++) {
+                var reader = new FileReader();
+                reader.onload = (function(file) {
+                    return function(e) {
+                        var div = document.createElement('div');
+                        div.className = 'image-preview';
+                        div.innerHTML = '<img src="' + e.target.result + '" alt="' + file.name + '">';
+                        previewContainer.appendChild(div);
+                    };
+                })(files[i]);
+                reader.readAsDataURL(files[i]);
+            }
+        });
+    </script>
+
+    <style>
+        .image-upload-container {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+        }
+        .image-upload-label {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .image-upload-label i {
+            margin-right: 5px;
+        }
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            overflow: hidden;
+        }
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+    </div>
+
+    <div class="mb-3">
+        <label for="tourURL" class="form-label">360 Tour URL (Optional)</label>
+        <input type="text" class="form-control" id="tourURL" name="tourURL" placeholder="https://">
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Describe your car</label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Describe your car"></textarea>
+    </div>
+
+    <!-- New Fields from First Image -->
+    <div class="mb-3">
+        <label for="fuelType" class="form-label">Fuel Type</label>
+        <select id="fuelType" name="fuelType" class="form-select form-control">
+            <option selected disabled>Select Fuel Type</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Electric">Electric</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Other">Other</option>
+        </select>
+        <div class="form-text text-danger">This field is required.</div>
+    </div>
+
+    <!-- Additional Fields from Second Image -->
+    <div class="mb-3">
+        <label for="transmissionType" class="form-label">Transmission Type</label>
+        <select id="transmissionType" name="transmissionType" class="form-select form-control">
+            <option selected disabled>Select Transmission Type</option>
+            <option value="Automatic">Automatic</option>
+            <option value="Manual">Manual</option>
+            <option value="CVT">CVT</option>
+            <option value="Electric">Electric</option>
+            <option value="Semi-Automatic">Semi-Automatic</option>
+            <option value="Other">Other</option>
+        </select>
+        <div class="form-text text-danger">This field is required.</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="seatingCapacity" class="form-label">Seating Capacity <span class="text-muted">(Optional)</span></label>
+        <select id="seatingCapacity" name="seatingCapacity" class="form-select form-control">
+            <option selected disabled>Select Seating Capacity</option>
+            <option value="2">2 seats</option>
+            <option value="4">4 seats</option>
+            <option value="5">5 seats</option>
+            <option value="6">6 seats</option>
+            <option value="7">7 seats</option>
+            <option value="8">8 seats</option>
+            <option value="9+">9+ seats</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="horsepower" class="form-label">Horsepower</label>
+        <select id="horsepower" name="horsepower" class="form-select form-control">
+            <option selected disabled>Select Horsepower</option>
+            <option value="100-150">100-150</option>
+            <option value="150-200">150-200</option>
+            <option value="200-300">200-300</option>
+            <option value="300-400">300-400</option>
+            <option value="400-500">400-500</option>
+            <option value="500-600">500-600</option>
+            <option value="600-700">600-700</option>
+            <option value="700+">700+</option>
+        </select>
+        <div class="form-text text-danger">This field is required.</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="engineCapacity" class="form-label">Engine Capacity (cc) <span class="text-muted">(Optional)</span></label>
+        <select id="engineCapacity" name="engineCapacity" class="form-select form-control">
+            <option selected disabled>Select Engine Capacity</option>
+            <option value="1000">0-1000cc</option>
+            <option value="1500">1100-2000cc</option>
+            <option value="2000">2100-3000cc</option>
+            <option value="2000">3100-4000cc</option>
+            <option value="2000">4100-5000cc</option>
+            <option value="2000">5100-6000cc</option>
+            <option value="2000">6100-7000cc</option>
+
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="steeringSide" class="form-label">Steering Side</label>
+        <select id="steeringSide" name="steeringSide" class="form-select form-control">
+            <option selected disabled>Select Steering Side</option>
+            <option value="Left">Left</option>
+            <option value="Right">Right</option>
+        </select>
+    </div>
+    <!-- Extras section -->
+    <div class="mb-3">
+      <label for="extras" class="form-label">Extras</label>
+      <a href="#" class="text-danger" id="toggleExtras">Show all <span>&#9660;</span></a>
+
+      <div id="extrasList" class="row" style="display: none;">
+          <div class="col-6">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="climate-control" name="extras[]" value="Climate Control">
+                  <label class="form-check-label" for="climate-control">Climate Control</label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dvd-player" name="extras[]" value="DVD Player">
+                  <label class="form-check-label" for="dvd-player">DVD Player</label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="keyless-entry" name="extras[]" value="Keyless Entry">
+                  <label class="form-check-label" for="keyless-entry">Keyless Entry</label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="navigation-system" name="extras[]" value="Navigation System">
+                  <label class="form-check-label" for="navigation-system">Navigation System</label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="premium-sound-system" name="extras[]" value="Premium Sound System">
+                  <label class="form-check-label" for="premium-sound-system">Premium Sound System</label>
+              </div>
+          </div>
+          
+      </div>
+  </div>
+
+  <!-- Locate your car field -->
+  <div class="mb-3">
+      <label for="locateCar" class="form-label">Locate your car <span class="text-muted">(Optional)</span></label>
+      <input type="text" class="form-control" id="locateCar" name="locateCar" placeholder="Enter your location">
+  </div>
+
+    <button type="submit" class="btn btn-danger">Submit</button>
+  </form>
+</div>
+
+
+  <script>
+      function showNextForm() {
+          document.getElementById('form1').style.display = 'none';
+          document.getElementById('form2').style.display = 'block';
+      }
+  </script>
+  <script>
+    document.getElementById('toggleExtras').addEventListener('click', function(e) {
+        e.preventDefault();
+        var extrasList = document.getElementById('extrasList');
+        if (extrasList.style.display === 'none') {
+            extrasList.style.display = 'block';
+            this.innerHTML = 'Show less <span>&#9650;</span>';
+        } else {
+            extrasList.style.display = 'none';
+            this.innerHTML = 'Show all <span>&#9660;</span>';
+        }
+    });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function updateMakeModel() {
+        var make = document.getElementById('make').value;
+        var model = document.getElementById('model').value;
+        var makeModelInput = document.getElementById('makeModel');
+        makeModelInput.value = make + ' ' + model;
+        console.log("makeModel value set to:", makeModelInput.value);  // Debugging output
+    }
+    function validateForm() {
+        var make = document.getElementById('make').value;
+        var model = document.getElementById('model').value;
+        if (!make || !model) {
+            alert("Please select both make and model.");
+            return false;
+        }
+        return true;
+    }
+    
+    document.getElementById('carDetailsForm').onsubmit = validateForm;
+    </script>
+  <script>
+    function updateModels() {
+        var makesToModels = {
+            "BMW": ["1 Series","2 Series", "3 Series","4 Series", "5 Series","6 Series","7 Series "," 8 Series ","X1","X2", "X3", "X4","X5","X6","X7","XM","IX",],
+            "Toyota": ["Corolla", "Camry", "RAV4"],
+            "Mercedes-Benz": ["C-Class", "E-Class", "S-Class"]
+        };
+
+        var makeSelect = document.getElementById('make');
+        var modelSelect = document.getElementById('model');
+        var selectedMake = makeSelect.value;
+
+        // Clear existing options
+        modelSelect.innerHTML = '';
+        modelSelect.appendChild(new Option('Select Model', ''));
+
+        // Populate model dropdown
+        if (selectedMake && makesToModels[selectedMake]) {
+            makesToModels[selectedMake].forEach(function(model) {
+                modelSelect.appendChild(new Option(model, model));
+            });
+        }
+    }
+</script>
+{% endblock body %}

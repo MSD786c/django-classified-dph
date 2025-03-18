@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<style>
+    .custom-select {
+        border-radius: 20px;
+        border: 1px solid #ced4da;
+        padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    }
+    .search-btn {
+        border-radius: 20px;
+        padding: 10px 30px;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+    }
+    .logo-text {
+        font-size: 0.9rem;
+    }
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+</style>
+
+<div class="container mt-5">
+    <h1 class="display-4 fw-bold text-cool mb-3" >Buy and Sell Car Number Plates in the UAE</h1>
+   <div> <a href="numberplateform.html"class="text-decoration-none text-primary">Sell your plate</a></div>
+    
+    <div class="row mt-4 mb-5">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title h3 fw-bold text-primary mb-4">Search</h2>
+                    <form method="GET" action="{% url 'license_plates' %}">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <select id="citySelect" name="city" class="form-control custom-select">
+                                    <option value="">City</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="codeSelect" name="code" class="form-control custom-select">
+                                    <option value="">Select Code</option>
+                                </select>                            
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control custom-select" name="digits">
+                                    <option value="">Select Number of Digits</option>
+                                    <option value="1">1 Digit</option>
+                                    <option value="2">2 Digit</option>
+                                    <option value="3">3 Digit</option>
+                                    <option value="4">4 Digit</option>
+                                    <option value="5">5 Digit</option>
+                                </select>                            </div>
+                        </div>
+                        <div class="more-options mt-3" style="display: none;">
+                            <div class="row g-3">
+                                <div class="col-md-6 mt-2">
+                                    <input type="number" class="form-control custom-select" name="contains" placeholder="Contains: ex:900">
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <input type="number" class="form-control custom-select" name="max_price" placeholder="Maximum price">
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <input type="number" class="form-control custom-select" name="min_price" placeholder="Minimum price">
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <input type="text" class="form-control custom-select" name="starts_with" placeholder="Starts with: ex:123">
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <input type="text" class="form-control custom-select" name="ends_with" placeholder="Ends with: ex:000">
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <select class="form-control custom-select" name="plate_format" placeholder="Plate format">
+                                        <option value="">Any format</option>
+                                        <option value="Contains digit repeated 2 times">Contains digit repeated 2 times</option>
+                                        <option value="Contains digit repeated 3 times">Contains digit repeated 3 times</option>
+                                        <option value="Contains digit repeated 4 times">Contains digit repeated 4 times</option>
+                                        <option value="x???x (5 Digits)">x???x (5 Digits)</option>
+                                        <option value="xyzyx (5 Digits)">xyzyx (5 Digits)</option>
+                                        <option value="xxxX (5 Digits)">xxxX (5 Digits)</option>
+                                        <option value="?xxx? (5 Digits)">?xxx? (5 Digits)</option>
+                                        <option value="хухух (5 Digits)">хухух (5 Digits)</option>
+                                        <option value="хууух (5 Digits)">хууух (5 Digits)</option>
+                                        <option value="??xxx (5 Digits)">??xxx (5 Digits)</option>
+                                        <option value="XXX?? (5 Digits)">XXX?? (5 Digits)</option>
+                                        <option value="xXXXx (5 Digits)">xXXXx (5 Digits)</option>
+                                        <option value="x??X (4 Digits)">x??X (4 Digits)</option>
+                                        <option value="xyyx (4 Digits)">xyyx (4 Digits)</option>
+                                        <option value="xyxy (4 Digits)">xyxy (4 Digits)</option>
+                                        <option value="?xx? (4 Digits)">?xx? (4 Digits)</option>
+                                        <option value="xxxy (4 Digits)">xxxy (4 Digits)</option>
+                                        <option value="ХУУУ (4 Digits)">ХУУУ (4 Digits)</option>
+                                        <option value="XXXX (4 Digits)">XXXX (4 Digits)</option>
+                                        <option value="xyx (3 Digits)">xyx (3 Digits)</option>
+                                        <option value="xyz (3 Digits)">xyz (3 Digits)</option>
+                                        <option value="xyy (3 Digits)">xyy (3 Digits)</option>
+                                        <option value="xxy (3 Digits)">xxy (3 Digits)</option>
+                                        <option value="XXX (3 Digits)">XXX (3 Digits)</option>
+                                    </select>                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary search-btn">Search</button>
+                        </div>
+                    </form>
+                    <a href="#" id="moreOptionsLink" class="text-primary text-decoration-none mt-3 d-inline-block">+ More options</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h3 class="fw-bold mb-3">
+                        <span class="text-cool">DPH</span><span class="text-primary">Classifieds</span>
+                    </h3>
+                    <p class="logo-text text-muted">
+                        We are proud to say that, <span class="text-danger fw-bold">DPH-classified.com</span> is <br>
+                        the best website for license plates <br>
+                          in UAE.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        {% for plate in license_plates %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plate.city }} - {{ plate.code }} - {{ plate.number }}</h5>
+                        <p class="card-text">
+                            <strong>Digits:</strong> {{ plate.digits }}<br>
+                            <strong>Format:</strong> {{ plate.plate_format }}<br>
+                            <strong>Price :</strong> AED {{ plate.price }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center">No license plates found.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const moreOptionsLink = document.getElementById('moreOptionsLink');
+        const moreOptionsDiv = document.querySelector('.more-options');
+
+        moreOptionsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (moreOptionsDiv.style.display === 'none' || moreOptionsDiv.style.display === '') {
+                moreOptionsDiv.style.display = 'block';
+                moreOptionsLink.textContent = '- Less options';
+            } else {
+                moreOptionsDiv.style.display = 'none';
+                moreOptionsLink.textContent = '+ More options';
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cityCodes = {
+            "Dubai": "ABCDEFGHIJKLMNOPQRSTUVWXYZ?".split(''),
+            "Abu Dhabi": [...Array.from({length: 20}, (_, i) => i + 1), "50", "?"].map(String),
+            "Ajman": "ABCDEFGHIJKLMNOPQRSTUVWXYZ?".split(''),
+            "Fujairah": "ABCDEFGHIJKLMNOPQRSTUVWXYZ?".split(''),
+            "Umm Al Quwain": "ABCDEFGHIJKLMNOPQRSTUVWXYZ?".split(''),
+            "Sharjah": [...Array.from({length: 3}, (_, i) => i + 1), "?"].map(String),
+            "Ras Al Khaimah": "ABCDEFGHIJKLMNOPQRSTUVWXYZ?".split(''),
+        };
+
+        const citySelect = document.getElementById('citySelect');
+        const codeSelect = document.getElementById('codeSelect');
+
+        citySelect.addEventListener('change', function() {
+            const codes = cityCodes[citySelect.value] || [];
+            codeSelect.innerHTML = '<option value="">Select Code</option>';
+            codes.forEach(code => {
+                const option = new Option(code, code);
+                codeSelect.add(option);
+            });
+        });
+    });
+</script>
+{% endblock %}

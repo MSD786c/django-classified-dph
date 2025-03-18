@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 class="display-4 fw-bold text-cool mb-3">Buy and Sell Car Number Plates in the UAE</h1>
+    <form id="numberPlateForm" method="POST" action="{% url 'submit_ad' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- City Dropdown -->
+        <label for="city">City:</label>
+        <select id="city" name="city" class="form-control custom-select" required>
+            <option value="">Select City</option>
+            <option value="Dubai">Dubai</option>
+            <option value="Abu Dhabi">Abu Dhabi</option>
+            <option value="Sharjah">Sharjah</option>
+            <option value="Sharjah">Ajman</option>
+            <option value="Sharjah">Ras Al Khaimah</option>
+            <option value="Sharjah">Fujairah</option>
+            <option value="Sharjah">Umm Al Quwain</option>
+
+        </select>
+
+        <!-- Code Dropdown -->
+        <label for="code">Code:</label>
+        <select id="code" name="code" class="form-control custom-select" required>
+            <option value="">Select Code</option>
+        </select>
+
+        <!-- Digits -->
+        <label for="digits">Digits:</label>
+        <select id="digits" name="digits" class="form-control custom-select" required>
+            <option value="">Select Digits</option>
+            <option value="1">1 Digit</option>
+            <option value="2">2 Digits</option>
+            <option value="3">3 Digits</option>
+            <option value="4">4 Digits</option>
+            <option value="5">5 Digits</option>
+        </select>
+
+        <!-- Plate Number -->
+        <label for="number">Plate Number:</label>
+        <input type="text" id="number" name="number" class="form-control" required>
+
+        <!-- Max Price -->
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" class="form-control">
+
+    
+        <!-- Plate Format -->
+        <select class="form-control custom-select" name="plate_format" placeholder="Plate format">
+            <option value="">Any format</option>
+            <option value="Contains digit repeated 2 times">Contains digit repeated 2 times</option>
+            <option value="Contains digit repeated 3 times">Contains digit repeated 3 times</option>
+            <option value="Contains digit repeated 4 times">Contains digit repeated 4 times</option>
+            <option value="x???x (5 Digits)">x???x (5 Digits)</option>
+            <option value="xyzyx (5 Digits)">xyzyx (5 Digits)</option>
+            <option value="xxxX (5 Digits)">xxxX (5 Digits)</option>
+            <option value="?xxx? (5 Digits)">?xxx? (5 Digits)</option>
+            <option value="хухух (5 Digits)">хухух (5 Digits)</option>
+            <option value="хууух (5 Digits)">хууух (5 Digits)</option>
+            <option value="??xxx (5 Digits)">??xxx (5 Digits)</option>
+            <option value="XXX?? (5 Digits)">XXX?? (5 Digits)</option>
+            <option value="xXXXx (5 Digits)">xXXXx (5 Digits)</option>
+            <option value="x??X (4 Digits)">x??X (4 Digits)</option>
+            <option value="xyyx (4 Digits)">xyyx (4 Digits)</option>
+            <option value="xyxy (4 Digits)">xyxy (4 Digits)</option>
+            <option value="?xx? (4 Digits)">?xx? (4 Digits)</option>
+            <option value="xxxy (4 Digits)">xxxy (4 Digits)</option>
+            <option value="ХУУУ (4 Digits)">ХУУУ (4 Digits)</option>
+            <option value="XXXX (4 Digits)">XXXX (4 Digits)</option>
+            <option value="xyx (3 Digits)">xyx (3 Digits)</option>
+            <option value="xyz (3 Digits)">xyz (3 Digits)</option>
+            <option value="xyy (3 Digits)">xyy (3 Digits)</option>
+            <option value="xxy (3 Digits)">xxy (3 Digits)</option>
+            <option value="XXX (3 Digits)">XXX (3 Digits)</option>
+        </select>    
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary mt-3">Post Ad</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cityDropdown = document.getElementById('city');
+    const codeDropdown = document.getElementById('code');
+
+    const cityCodes = {
+        "Dubai": Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i)),
+        "Abu Dhabi": [...Array(20).keys()].map(i => i + 1).concat(['50', '?']),
+        "Sharjah": [...Array(10).keys()].map(i => i + 1).concat([ '?']),
+        "Ajman": Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i)),
+        "Ras Al Khaimah": Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i)),
+        "Fujairah": Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i)),
+        "Umm Al Quwain": Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i)),
+    };
+
+    // Update code dropdown based on selected city
+    cityDropdown.addEventListener('change', function () {
+        const selectedCity = cityDropdown.value;
+        codeDropdown.innerHTML = '<option value="">Select Code</option>'; // Reset the dropdown
+        if (cityCodes[selectedCity]) {
+            cityCodes[selectedCity].forEach(code => {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = code;
+                codeDropdown.appendChild(option);
+            });
+        }
+    });
+});
+</script>
+
+{% endblock %}

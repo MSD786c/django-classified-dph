@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<section id="featured-listings" class="section-padding">
+    <div class="container">
+        <div class="section-header heading-3 text-center">
+            <h2>Filtered Cars</h2>
+        </div>  
+        <div class="row">
+            {% if cars %}
+                {% for car_data in cars %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="featured-listing-wrap">
+                        <div class="listing-image">
+                            {% if car_data.main_image %}
+                                <a href="/listing-detail.html/{{car_data.car.id}}/">
+                                    <img src="{{ car_data.main_image.image.url }}" alt="{{ car_data.car.car_manufacturer }} {{ car_data.car.car_model }}">
+                                </a>
+                            {% else %}
+                                <a href="/listing-detail.html/{{car_data.car.id}}/">
+                                    <img src="{% static 'assets/images/default-car.jpg' %}" alt="Default car image">
+                                </a>
+                            {% endif %}
+                        </div>
+                        <h4><a href="/listing-detail.html/{{car_data.car.id}}/">{{car_data.car.car_manufacturer}} {{car_data.car.car_model}}</a></h4>
+                        <p class="listing-price">AED {{car_data.car.expected_selling_price|floatformat:2}}</p>
+                        <div class="listing-meta">
+                            <ul>
+                                <li>Year: {{car_data.car.make_year}}</li>
+                                <li>{{car_data.car.fuel_type|title}}</li>
+                                <li>{{car_data.car.transmission_type|title}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4 class="alert-heading">No Cars Found</h4>
+                        <p>Sorry, we couldn't find any cars matching your search criteria.</p>
+                        <hr>
+                        <p class="mb-0">Try adjusting your filters or search terms to see more results.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
